@@ -26,4 +26,10 @@ public class Population {
             genePool.add(individual);
         }
     }
+
+    public void evolveThroughGenerations(Integer numberOfGenerations) {
+        for (int i = 0; i < numberOfGenerations; i++) {
+            genePool.forEach(Individual::calculateFitness);
+        }
+    }
 }
