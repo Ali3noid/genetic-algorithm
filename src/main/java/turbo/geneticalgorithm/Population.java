@@ -12,16 +12,26 @@ import static java.util.Comparator.comparing;
 public class Population {
     private final Individual precursor;
     private ArrayList<Individual> genePool = new ArrayList<>();
-    private final Integer populationSize;
+    private int populationSize = 30;
+    private double mutationRate = 0.2;
 
-    private Population(Individual precursor, Integer populationSize) {
+    private Population(Individual precursor) {
         this.precursor = precursor;
-        this.populationSize = populationSize;
         createPopulation();
     }
 
-    public static Population of(Individual precursor, Integer populationSize) {
-        return new Population(precursor, populationSize);
+    public static Population of(Individual precursor) {
+        return new Population(precursor);
+    }
+
+    public Population withSizeOf(int populationSize) {
+        this.populationSize = populationSize;
+        return this;
+    }
+
+    public Population withMutationRateOf(double mutationRate) {
+        this.mutationRate = mutationRate;
+        return this;
     }
 
     private void createPopulation() {
@@ -56,11 +66,11 @@ public class Population {
         Individual secondParent = drawIndividual(fitnessSum);
 
         Individual child = cross(firstParent, secondParent);
-        mutate(child, 0.15);
+        mutate(child);
         return child;
     }
 
-    private void mutate(Individual child, Double mutationRate) {
+    private void mutate(Individual child) {
         if (random() <= mutationRate) {
             Integer size = precursor.getChromosome().getGenes().size();
             Integer index = new Random().ints(0, size).findFirst().getAsInt();
