@@ -1,12 +1,12 @@
-package turbo;
+package turbo.geneticalgorithm;
 
 import lombok.Data;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.IntStream;
+import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import static java.lang.Math.random;
 import static turbo.util.Constants.ALPHABET_SPAN;
 import static turbo.util.Constants.FIRST_CHARACTER;
 
@@ -15,10 +15,10 @@ public class Chromosome {
 
     private List<Double> genes;
 
-    public Chromosome(Integer size) {
-        //TODO Find cleaner way to do it
-        genes = new ArrayList<>();
-        IntStream.range(0, size).forEach(i -> genes.add(random()));
+    Chromosome(Integer size) {
+        genes = Stream.generate(new Random()::nextDouble)
+                .limit(size)
+                .collect(Collectors.toList());
     }
 
     public char getCharAt(Integer i) {
